@@ -3,8 +3,8 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || 'postgres://postgres:postgres@
 class Link
   include DataMapper::Resource
 
-  property :id         , String, key: true
-  property :original   , Text, format: :url, required: true
+  property :id         , String,    key: true
+  property :original   , Text,      format: :url, required: true
   property :password   , BCryptHash, required: false
   property :created_at , DateTime
   property :updated_at , DateTime
@@ -24,6 +24,11 @@ helpers do
     end
     link.original
   end
+end
+
+# --- Web UI (Issue #3) ---
+get '/' do
+  erb :index
 end
 
 route :get, :post, '/api/view/:id' do
