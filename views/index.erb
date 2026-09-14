@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Shoutlink — memorable Haiku-style short links">
+  <title>Shoutlink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg-blobs" aria-hidden="true">
+    <span class="blob blob-a"></span>
+    <span class="blob blob-b"></span>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">📣</span>
+      <span class="brand-text">shout<span>link</span></span>
+    </a>
+    <p class="tagline">Memorable short links, Heroku-style</p>
+  </header>
+
+  <main class="container">
+    <section class="card" id="shorten-section" aria-labelledby="shorten-heading">
+      <h1 id="shorten-heading">Shorten a URL</h1>
+      <p class="lede">Paste a long link. Get a shoutable name like <code>blue-bird</code>.</p>
+
+      <form id="shorten-form" novalidate>
+        <label class="field">
+          <span class="label">URL</span>
+          <input
+            type="url"
+            id="url"
+            name="url"
+            placeholder="https://example.com/very/long/path"
+            required
+            autocomplete="url"
+            inputmode="url"
+          >
+        </label>
+
+        <details class="optional">
+          <summary>Optional password</summary>
+          <label class="field">
+            <span class="label">Password</span>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Leave blank for a public link"
+              autocomplete="new-password"
+            >
+          </label>
+        </details>
+
+        <div class="actions">
+          <button type="submit" class="btn btn-primary" id="shorten-btn">
+            <span class="btn-label">Create shoutlink</span>
+            <span class="btn-spinner" hidden aria-hidden="true"></span>
+          </button>
+          <button type="button" class="btn btn-ghost" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="result" class="result" hidden role="status" aria-live="polite">
+        <p class="result-label">Your shoutlink</p>
+        <div class="result-row">
+          <a id="short-link" class="short-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+          <button type="button" class="btn btn-icon" id="copy-btn" title="Copy to clipboard" aria-label="Copy short link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+          </button>
+        </div>
+        <p class="result-id">ID: <code id="short-id"></code></p>
+        <div class="result-actions">
+          <a id="open-btn" class="btn btn-secondary" href="#" target="_blank" rel="noopener noreferrer">Open link</a>
+          <button type="button" class="btn btn-ghost" id="copy-id-btn">Copy ID</button>
+        </div>
+        <p id="copy-toast" class="toast" hidden>Copied!</p>
+      </div>
+
+      <div id="error" class="error" hidden role="alert"></div>
+    </section>
+
+    <section class="card card-muted" id="lookup-section" aria-labelledby="lookup-heading">
+      <h2 id="lookup-heading">Look up a link</h2>
+      <p class="lede">Already have an ID? Resolve or open it.</p>
+
+      <form id="lookup-form" novalidate>
+        <label class="field">
+          <span class="label">Shoutlink ID</span>
+          <input
+            type="text"
+            id="lookup-id"
+            name="id"
+            placeholder="e.g. dawn-cloud"
+            required
+            autocomplete="off"
+            spellcheck="false"
+          >
+        </label>
+
+        <label class="field">
+          <span class="label">Password <span class="hint">(if required)</span></span>
+          <input
+            type="password"
+            id="lookup-password"
+            name="password"
+            placeholder="Optional"
+            autocomplete="current-password"
+          >
+        </label>
+
+        <div class="actions">
+          <button type="submit" class="btn btn-secondary" id="view-btn">View URL</button>
+          <button type="button" class="btn btn-primary" id="open-lookup-btn">Open</button>
+        </div>
+      </form>
+
+      <div id="lookup-result" class="result result-compact" hidden role="status" aria-live="polite">
+        <p class="result-label">Original URL</p>
+        <a id="lookup-url" class="short-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+      </div>
+      <div id="lookup-error" class="error" hidden role="alert"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Powered by
+      <a href="https://github.com/swapagarwal/shoutlink" target="_blank" rel="noopener noreferrer">shoutlink</a>
+      · API at <code>/api/create</code>
+    </p>
+  </footer>
+
+  <script src="/js/app.js" defer></script>
+</body>
+</html>
